@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Fortnite — Gabriela Leon | Morgana</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<audio id="bgMusic" src="assets/audio/musica.mp3" loop preload="auto"></audio>
+  <audio id="lobbyMusic" src="assets/audio/i-love-you-billie-eilish.mp3" loop preload="auto"></audio>
+<div id="app">
+  <div id="fadeOverlay" aria-hidden="true"></div>
+  <div id="shineOverlay" aria-hidden="true"></div>
+
+  <!-- 01 — Tela de carregamento -->
+  <section id="loadingScreen" class="screen active" aria-label="Carregando">
+    <img class="bg" src="assets/initial/loading.png" alt="">
+    <div id="loadingStatus" aria-live="polite">
+      CONECTANDO<span class="dots"><span>.</span><span>.</span><span>.</span></span>
+    </div>
+  </section>
+
+  <!-- 02 — Presente -->
+  <section id="giftScreen" class="screen" aria-label="Presente">
+    <img class="bg" src="assets/rewards/presente.png" alt="">
+    <div id="giftButton" role="button" tabindex="0" aria-label="Abrir presente"></div>
+  </section>
+
+  <!-- 03 — Escolha da skin -->
+  <section id="skinScreen" class="screen" aria-label="Escolha da skin">
+    <img id="skinChoiceImage" class="bg" src="assets/rewards/presente_padrao.png" alt="Escolha da skin">
+
+    <div id="faceChoice" class="choiceHitbox" role="button" tabindex="0"
+         aria-label="Escolher Morgana sem o gato"></div>
+    <div id="catChoice" class="choiceHitbox" role="button" tabindex="0"
+         aria-label="Escolher Morgana com o Gordão"></div>
+
+    <div id="equipButton" role="button" tabindex="0" aria-label="Equipar"></div>
+  </section>
+
+  <!-- 04 — Lobby intermediário: 10 segundos -->
+  <section id="lobbyLoadingScreen" class="screen" aria-label="Lobby">
+    <img id="lobbyLoadingArt" class="bg" src="assets/lobby/lobby_loading.png" alt="">
+    <div class="lobbyLoadingHud">
+      <div class="loadingLabel">CARREGANDO <span class="loadingDots">...</span></div>
+      <div class="loadingTrack">
+        <div id="lobbyLoadingProgress" class="loadingProgress"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Lobby final sem gato -->
+  <section id="lobbySoloScreen" class="screen" aria-label="Lobby sem gato">
+    <img id="lobbySoloArt" class="bg lobbyFinalTransition" src="assets/lobby/lobby_sem_gato.png" alt="">
+    <div id="playSoloButton" class="playHitbox" role="button" tabindex="0" aria-label="Jogar"></div>
+    <div id="panelSoloButton" class="panelHitbox" role="button" tabindex="0" aria-label="Painel"></div>
+    <div id="wardrobeSoloButton" class="wardrobeHitbox" role="button" tabindex="0" aria-label="Vestiário"></div>
+  </section>
+
+  <!-- 06 — Lobby final com gato -->
+  <section id="lobbyCatScreen" class="screen" aria-label="Lobby com Gordão">
+    <img id="lobbyCatArt" class="bg lobbyFinalTransition" src="assets/lobby/lobby_com_gato.png" alt="">
+    <div id="playCatButton" class="playHitbox" role="button" tabindex="0" aria-label="Jogar"></div>
+    <div id="panelCatButton" class="panelHitbox" role="button" tabindex="0" aria-label="Painel"></div>
+    <div id="wardrobeCatButton" class="wardrobeHitbox" role="button" tabindex="0" aria-label="Vestiário"></div>
+  </section>
+
+
+  <section id="wardrobeScreen" class="screen wardrobeScreen" aria-label="Vestiário">
+    <img class="bg" src="assets/wardrobe/background/vestiario.png" alt="Vestiário">
+    <div id="wardrobePlayButton" class="wardrobePlayHitbox" role="button" tabindex="0" aria-label="Jogar"></div>
+    <div class="wardrobePanel">
+      <div class="wardrobeHeader"><div class="wardrobeTitle">VESTIÁRIO</div><button id="closeWardrobe" class="wardrobeClose" type="button" aria-label="Fechar vestiário">×</button></div>
+      <div class="wardrobeTabs" role="tablist" aria-label="Categorias">
+        <button class="wardrobeTab active" data-wardrobe-category="skins" type="button">SKINS</button>
+        <button class="wardrobeTab" data-wardrobe-category="loading" type="button">TELAS DE CARREGAMENTO</button>
+        <button class="wardrobeTab" data-wardrobe-category="hacks" type="button">HACKS DE LOBBY</button>
+      </div>
+      <div id="wardrobeGrid" class="wardrobeGrid"></div>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="screen" aria-label="Partida">
+    <img class="bg" src="assets/game/tela_jogo.png" alt="Partida">
+    <button id="returnLobbyButton" class="returnLobbyButton" type="button">VOLTAR AO LOBBY</button>
+  </section>
+
+</div>
+
+
+  <div id="wardrobeHover" class="wardrobeHover" aria-hidden="true">
+    <div class="wardrobeHoverWindow" role="dialog" aria-modal="true" aria-label="Visualização do item">
+      <button id="wardrobeHoverClose" class="wardrobeHoverClose" type="button" aria-label="Fechar">×</button>
+      <div id="wardrobeHoverTitle" class="wardrobeHoverTitle"></div>
+      <img id="wardrobeHoverImage" class="wardrobeHoverImage" src="" alt="">
+      <a id="wardrobeDownload" class="wardrobeDownload" href="#" download target="_blank" rel="noopener">BAIXAR IMAGEM</a>
+    </div>
+  </div>
+
+  <!-- PRIMEIRA RECOMPENSA SECRETA — TELA DE HACK -->
+  <div id="secretRewardScreen" class="secretRewardScreen" aria-hidden="true">
+    <img src="assets/rewards/hack_1.png" class="secretRewardArt" alt="Recompensa especial">
+    <button id="secretRescueButton" class="secretRescueButton" type="button" aria-label="Resgatar">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!-- SEGUNDA RECOMPENSA SECRETA — HACK 2 -->
+  <div id="secretRewardScreen2" class="secretRewardScreen" aria-hidden="true">
+    <img src="assets/rewards/hack_2.png" class="secretRewardArt" alt="Segunda recompensa especial">
+    <button id="secretRescueButton2" class="secretRescueButton" type="button" aria-label="Resgatar">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!-- TERCEIRA RECOMPENSA SECRETA — HACK 3 -->
+  <div id="secretRewardScreen3" class="secretRewardScreen" aria-hidden="true">
+    <img src="assets/rewards/hack_3.png" class="secretRewardArt" alt="Terceira recompensa especial">
+    <button id="secretEquipButton3" class="secretEquipButton" type="button" aria-label="Equipar Hack 3"></button>
+    <button id="secretRescueButton3" class="secretRescueButton" type="button" aria-label="Resgatar Hack 3">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!-- MAPA DE MEMÓRIAS -->
+  <div id="memoryMapOverlay" class="memoryMapOverlay" aria-hidden="true">
+    <div class="memoryMapFrame">
+      <button id="closeMemoryMap" class="modalClose" type="button" aria-label="Fechar mapa de memórias">×</button>
+      <div class="memoryMapTopBar">
+        <div>
+          <div class="memoryMapEyebrow">MUNDO PARTICULAR · GABRIELA LEON</div>
+          <h2 class="memoryMapTitle">MORGADAY</h2>
+          <div class="memoryMapSubtitle">Um mundo de histórias, amizade e novas conquistas.</div>
+        </div>
+        <div class="memoryMapPill">MOUSE: ZOOM + ARRASTAR · M: FECHAR</div>
+      </div>
+      <div class="memoryMapImageWrap">
+        <div id="memoryMapCanvas" class="memoryMapCanvas">
+        <img src="assets/game/mapa_memorias.png" class="memoryMapImage" alt="Mapa de Memórias">
+
+        <button class="memoryHotspot" data-memory-place="Banco do HOMII SAFADO" style="left:29.0%;top:14.8%" aria-label="Banco do HOMII SAFADO">🏦 BANCO DO HOMII SAFADO</button>
+        <button class="memoryHotspot" data-memory-place="Reino dos 30 Gatos" style="left:66.0%;top:14.8%" aria-label="Reino dos 30 Gatos">🐈 REINO DOS 30 GATOS</button>
+        <button class="memoryHotspot" data-memory-place="Distrito Morgaday" style="left:84.0%;top:30.0%" aria-label="Distrito Morgaday">🎂 DISTRITO MORGADAY</button>
+        <button class="memoryHotspot" data-memory-place="Vila da Experiência" style="left:75.5%;top:50.8%" aria-label="Vila da Experiência">🧓 VILA DA EXPERIÊNCIA</button>
+        <button class="memoryHotspot" data-memory-place="Refúgio Morgaday" style="left:50.0%;top:45.0%" aria-label="Refúgio Morgaday">💜 REFÚGIO MORGADAY</button>
+        <button class="memoryHotspot" data-memory-place="Refúgio do Gordão" style="left:59.0%;top:84.0%" aria-label="Refúgio do Gordão">🐱 REFÚGIO DO GORDÃO</button>
+        <button class="memoryHotspot" data-memory-place="Jardins da Celebração" style="left:26.5%;top:76.5%" aria-label="Jardins da Celebração">🎁 JARDINS DA CELEBRAÇÃO</button>
+        <button class="memoryHotspot" data-memory-place="Vale das Grandes Conquistas" style="left:15.5%;top:57.5%" aria-label="Vale das Grandes Conquistas">✨ VALE DAS GRANDES CONQUISTAS</button>
+        <button class="memoryHotspot" data-memory-place="Praça da Morgana" style="left:27.5%;top:34.5%" aria-label="Praça da Morgana">🌸 PRAÇA DA MORGANA</button>
+        <button class="memoryHotspot memorySecretHotspot" data-memory-place="O Desconhecido" style="left:88.0%;top:82.0%" aria-label="O Desconhecido">★</button>
+        </div>
+      </div>
+
+      <div class="memoryMapHint">Explore os lugares e descubra as lembranças</div>
+      <div class="memoryMapZoomHint">Role o mouse para aproximar ou afastar · M abre/fecha o mapa</div>
+
+      <div id="memoryDetailOverlay" class="memoryDetailOverlay" aria-hidden="true">
+        <article class="memoryDetailCard">
+          <button id="memoryDetailClose" class="memoryDetailClose" type="button" aria-label="Fechar memória">×</button>
+          <h2 id="memoryDetailTitle" class="memoryDetailTitle">LUGAR</h2>
+          <p id="memoryDetailText" class="memoryDetailText">Aqui entra a história dessa lembrança.</p>
+          <div class="memoryDetailGrid">
+            <div id="memoryDetailMedia" class="memoryDetailMedia">
+              <div class="memoryMediaPlaceholder">COLOQUE AQUI A PAISAGEM, FOTO OU VÍDEO</div>
+            </div>
+            <div id="memoryDetailNostalgiaPanel" class="memoryDetailNostalgia">
+              <strong id="memoryDetailNoteHeading">UM RECADO PRA TI</strong>
+              <p id="memoryDetailNostalgia">“Algumas fases acabam. As lembranças não.”</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <button id="returnLobbyMapButton" class="returnLobbyButton returnLobbyMapButton" type="button">VOLTAR AO LOBBY</button>
+  </div>
+
+  <!-- JOGAR: PARTIDA ENCONTRADA -->
+  <div id="matchFoundScreen" class="matchFoundScreen" aria-hidden="true">
+    <div id="matchFoundBox" class="matchFoundBox">
+      <div id="matchCountdownText" class="matchCountdownText">PROCURANDO PARTIDA</div>
+      <div id="matchCountdownNumber" class="matchCountdownNumber">00:45</div>
+    </div>
+  </div>
+
+
+  <!-- FLASH DE LUZ: carregamento -> partida -->
+  <div id="gameLightFlash" class="gameLightFlash" aria-hidden="true"></div>
+
+  <!-- CARREGAMENTO DA PARTIDA -->
+  <div id="matchLoadingScreen" class="matchLoadingScreen" aria-hidden="true">
+    <img src="assets/loading/tela_carregamento_1.png" class="matchLoadingArt" alt="">
+    <div class="loadingHud">
+      <div class="loadingLabel">CARREGANDO <span class="loadingDots">...</span></div>
+      <div class="loadingTrack">
+        <div id="matchProgress" class="loadingProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A tela do MAPA DE MEMÓRIAS será inserida aqui depois. -->
+
+  <!-- MODAL DO PAINEL — arte gráfica fornecida -->
+  <div id="panelModal" class="modalLayer panelArtLayer" aria-hidden="true">
+    <div class="modalBackdrop"></div>
+
+    <div class="panelArtWindow" role="dialog" aria-modal="true" aria-label="Painel de administração">
+      <img src="assets/ui/modal_painel.png" class="panelArt" alt="Painel de administração">
+
+      <!-- Campo invisível sobre a caixa de texto da arte -->
+      <input id="secretCode" class="panelArtInput" maxlength="32"
+             autocomplete="off" spellcheck="false" aria-label="Código secreto">
+
+      <!-- Botões invisíveis sobre ENVIAR e CANCELAR -->
+      <button id="unlockSecret" class="panelArtSend" aria-label="Enviar"></button>
+      <button id="closePanel" class="panelArtCancel" aria-label="Cancelar"></button>
+    </div>
+  </div>
+
+  <!-- TELA DA MENSAGEM SECRETA -->
+  <div id="secretScreen" class="secretScreen" aria-hidden="true">
+    <div class="secretContent">
+      <button id="closeSecret" class="secretClose" aria-label="Fechar">×</button>
+      <div class="modalKicker">MENSAGEM SECRETA</div>
+      <h2>Você encontrou algo que eu escondi.</h2>
+      <p id="secretText">
+        Aqui entra a mensagem final. Vamos colocar o texto definitivo quando você decidir exatamente o que quer dizer.
+      </p>
+    </div>
+  </div>
+  </div>
+
+
+
+<script src="script.js" defer></script>
+
+
+</body>
+</html>
