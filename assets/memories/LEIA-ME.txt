@@ -1,0 +1,20 @@
+MAPA DE MEMÓRIAS — PAISAGENS
+
+Coloque as paisagens criadas por você nesta pasta: assets/memories/landscapes/
+Use exatamente estes nomes:
+- banco_do_homii_safado.png
+- catastrofe_dos_30.png
+- distrito_21_10.png
+- vila_dos_experientes.png
+- lobby_central.png
+- santuario_dos_gatos.png
+- area_do_presente.png
+- vale_voce_e_incrivel.png
+- praca_morgana.png
+- lugar_secreto.png
+
+O mapa oficial já está em assets/game/mapa_memorias.png.
+A tela de cada memória foi ampliada para ocupar a tela toda, com a paisagem à esquerda e a área de texto/mídia à direita (em celular fica empilhada).
+
+
+Versão v42: os nomes das localidades no mapa aparecem sem caixas de fundo/bordas; apenas o texto clicável fica visível.
